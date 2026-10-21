@@ -1,0 +1,186 @@
+@import "tailwindcss";
+
+/*
+ * Jaipur "Pink City" design tokens — taken from the Design canvas
+ * (lalitgautam.com — Jaipur Pink City).
+ */
+@theme {
+  --color-ivory: #fff6ea;
+  --color-pink: #e7a08c;
+  --color-blush: #fce7dd;
+  --color-blush-line: #f3c8b9;
+  --color-indigo: #22306b;
+  --color-indigo-deep: #121b45;
+  --color-indigo-soft: #33427f;
+  --color-marigold: #f2b33d;
+  --color-terracotta: #c2604c;
+  --color-maroon: #8e3b2c;
+  --color-teal: #1e4d4a;
+  --color-ink: #2a1d24;
+  --color-ink-soft: #3a2830;
+  --color-ink-muted: #4a3540;
+  --color-mist: #e9e2f0;
+  --color-rosewood: #e7c9be;
+  --color-lotus: #4a68b0;
+
+  --font-display: var(--font-yeseva), Georgia, serif;
+  --font-sans: var(--font-jost), system-ui, sans-serif;
+  --font-hindi: var(--font-tiro), serif;
+
+  --tracking-eyebrow: 0.22em;
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-ivory);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 17px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  @media (min-width: 768px) {
+    body {
+      font-size: 19px;
+      line-height: 1.6;
+    }
+  }
+
+  a {
+    color: var(--color-indigo);
+  }
+  a:hover {
+    color: var(--color-indigo-deep);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-indigo);
+    outline-offset: 3px;
+  }
+  [data-surface="dark"] :focus-visible {
+    outline-color: var(--color-marigold);
+  }
+  [data-surface="light"] :focus-visible {
+    outline-color: var(--color-indigo);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Wrapper: 1240px column, 40px gutters (18px under 860px, 16px on phones). */
+  .wrap {
+    width: 100%;
+    max-width: 1240px;
+    margin-inline: auto;
+    padding-inline: 16px;
+    box-sizing: border-box;
+  }
+  @media (min-width: 480px) {
+    .wrap {
+      padding-inline: 18px;
+    }
+  }
+  @media (min-width: 861px) {
+    .wrap {
+      padding-inline: 40px;
+    }
+  }
+
+  /* Pink jaali lattice */
+  .lattice {
+    background-color: var(--color-pink);
+    background-image:
+      repeating-linear-gradient(45deg, rgb(255 246 234 / 0.5) 0 1.5px, transparent 1.5px 18px),
+      repeating-linear-gradient(-45deg, rgb(255 246 234 / 0.5) 0 1.5px, transparent 1.5px 18px);
+  }
+  @media (min-width: 768px) {
+    .lattice {
+      background-image:
+        repeating-linear-gradient(45deg, rgb(255 246 234 / 0.5) 0 1.5px, transparent 1.5px 22px),
+        repeating-linear-gradient(-45deg, rgb(255 246 234 / 0.5) 0 1.5px, transparent 1.5px 22px);
+    }
+  }
+
+  /* Indigo block-print dots */
+  .blockprint {
+    background-color: var(--color-indigo);
+    background-image: radial-gradient(circle at 50% 50%, rgb(255 246 234 / 0.14) 3px, transparent 4px);
+    background-size: 22px 22px;
+  }
+  @media (min-width: 768px) {
+    .blockprint {
+      background-size: 26px 26px;
+    }
+  }
+
+  /* Scalloped edge under page heroes */
+  .scallop {
+    height: 22px;
+    background: radial-gradient(circle at 11px 0, var(--color-pink) 11px, transparent 11.5px) 0 0 / 22px 22px;
+  }
+
+  .eyebrow {
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-maroon);
+  }
+  @media (min-width: 768px) {
+    .eyebrow {
+      font-size: 14px;
+      letter-spacing: var(--tracking-eyebrow);
+    }
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 48px;
+    padding: 13px 28px;
+    border-radius: 999px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    text-align: center;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition:
+      filter 150ms ease,
+      transform 150ms ease,
+      background-color 150ms ease,
+      color 150ms ease;
+  }
+  .btn:hover {
+    filter: brightness(1.08);
+  }
+  .btn:active {
+    transform: translateY(1px);
+  }
+  .btn:disabled,
+  .btn[aria-disabled="true"] {
+    cursor: not-allowed;
+    opacity: 0.6;
+    filter: none;
+    transform: none;
+  }
+}
