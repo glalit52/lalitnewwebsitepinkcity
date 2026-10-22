@@ -69,7 +69,7 @@ export async function processInquiry(
     status: "success",
     message:
       result.mode === "dev-log"
-        ? `${SUCCESS[kind]} (Development mode: logged to the server console — set INQUIRY_WEBHOOK_URL to deliver it.)`
+        ? `${SUCCESS[kind]} (Development mode: logged to the server console — set RESEND_API_KEY or INQUIRY_WEBHOOK_URL to deliver it.)`
         : SUCCESS[kind],
   };
 }
