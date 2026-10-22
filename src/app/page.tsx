@@ -33,6 +33,7 @@ function StructuredDataJsonLd() {
         "@type": "Person",
         "@id": `${siteUrl}/#person`,
         name: person.name,
+        email: `mailto:${person.email}`,
         url: siteUrl,
         description: person.tagline,
         jobTitle: "Founder & CEO, SenseGrass",

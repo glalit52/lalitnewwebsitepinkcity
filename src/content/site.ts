@@ -8,6 +8,7 @@
 
 export const person = {
   name: "Lalit Gautam",
+  email: "lalit@sensegrass.com",
   domain: "lalitgautam.com",
   tagline: "A global citizen building startups and inspiring change worldwide.",
   intro:

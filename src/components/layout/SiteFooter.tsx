@@ -49,18 +49,21 @@ export function SiteFooter(props: ConnectProps | SimpleProps) {
           aria-label="Social"
           className="grid w-full grid-cols-2 gap-2 sm:flex sm:w-auto sm:flex-wrap sm:justify-center sm:gap-2.5"
         >
-          {socials.map((s) => (
-            <a
-              key={s.name}
-              href={s.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn min-h-11 bg-ivory px-[22px] py-3 text-[15px] text-indigo hover:bg-white hover:text-indigo md:text-[19px]"
-            >
-              {s.name}
-              <span className="sr-only"> (opens in a new tab)</span>
-            </a>
-          ))}
+          {socials.map((s) => {
+            const isMail = s.url.startsWith("mailto:");
+            return (
+              <a
+                key={s.name}
+                href={s.url}
+                target={isMail ? undefined : "_blank"}
+                rel={isMail ? undefined : "noopener noreferrer"}
+                className="btn min-h-11 bg-ivory px-[22px] py-3 text-[15px] text-indigo hover:bg-white hover:text-indigo md:text-[19px]"
+              >
+                {s.name}
+                {isMail ? null : <span className="sr-only"> (opens in a new tab)</span>}
+              </a>
+            );
+          })}
           {socials.length === 0 ? (
             <Link href={bookCallHref} className="btn col-span-2 min-h-11 bg-ivory text-indigo hover:bg-white hover:text-indigo">
               Book a call

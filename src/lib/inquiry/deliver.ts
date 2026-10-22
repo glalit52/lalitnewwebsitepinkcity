@@ -1,4 +1,5 @@
 import "server-only";
+import { person } from "@/content/site";
 import type { InquiryKind } from "./schema";
 
 export type DeliveryResult =
@@ -6,6 +7,8 @@ export type DeliveryResult =
   | { ok: false; reason: "not-configured" | "failed" };
 
 export type Deliver = (kind: InquiryKind, payload: Record<string, unknown>) => Promise<DeliveryResult>;
+
+export const DEFAULT_INBOX_EMAIL = "lalit@sensegrass.com";
 
 /**
  * Integration boundary for form submissions.
@@ -19,13 +22,14 @@ export type Deliver = (kind: InquiryKind, payload: Record<string, unknown>) => P
  * it is unavailable instead of pretending to succeed.
  */
 export const deliverInquiry: Deliver = async (kind, payload) => {
+  const recipient = process.env.INQUIRY_INBOX_EMAIL || person.email || DEFAULT_INBOX_EMAIL;
   const url = process.env.INQUIRY_WEBHOOK_URL;
   if (!url) {
     if (process.env.NODE_ENV !== "production") {
-      console.info(`[inquiry:${kind}] (no INQUIRY_WEBHOOK_URL — dev log only)`, payload);
+      console.info(`[inquiry:${kind}] (routed to ${recipient} — dev log only)`, payload);
       return { ok: true, mode: "dev-log" };
     }
-    console.error(`[inquiry:${kind}] INQUIRY_WEBHOOK_URL is not configured; submission not delivered.`);
+    console.error(`[inquiry:${kind}] INQUIRY_WEBHOOK_URL is not configured; submission for ${recipient} not delivered.`);
     return { ok: false, reason: "not-configured" };
   }
 
@@ -38,7 +42,12 @@ export const deliverInquiry: Deliver = async (kind, payload) => {
     const res = await fetch(url, {
       method: "POST",
       headers,
-      body: JSON.stringify({ kind, submittedAt: new Date().toISOString(), ...payload }),
+      body: JSON.stringify({
+        kind,
+        recipient,
+        submittedAt: new Date().toISOString(),
+        ...payload,
+      }),
       signal: AbortSignal.timeout(10_000),
       cache: "no-store",
     });

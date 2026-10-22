@@ -12,3 +12,13 @@ describe("safeExternalUrl", () => {
     expect(safeExternalUrl("javascript:alert(1)")).toBeNull();
   });
 });
+
+describe("getSocialLinks", () => {
+  it("includes default email contact link", async () => {
+    const { getSocialLinks } = await import("./links");
+    const links = getSocialLinks();
+    const emailLink = links.find((l) => l.name === "Email");
+    expect(emailLink).toBeDefined();
+    expect(emailLink?.url).toBe("mailto:lalit@sensegrass.com");
+  });
+});

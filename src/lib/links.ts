@@ -18,7 +18,11 @@ export function safeExternalUrl(value: string | undefined | null): string | null
 export const siteUrl =
   safeExternalUrl(process.env.NEXT_PUBLIC_SITE_URL) ?? "https://lalitgautam.com";
 
+export const contactEmail =
+  process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "lalit@sensegrass.com";
+
 export const externalLinks = {
+  email: `mailto:${contactEmail}`,
   topmate: safeExternalUrl(process.env.NEXT_PUBLIC_TOPMATE_URL),
   book: safeExternalUrl(process.env.NEXT_PUBLIC_BOOK_URL),
   bookSample: safeExternalUrl(process.env.NEXT_PUBLIC_BOOK_SAMPLE_URL),
@@ -31,9 +35,10 @@ export const externalLinks = {
 
 export type SocialLink = { name: string; url: string };
 
-/** Social profiles in the order the design lists them; unconfigured ones are skipped. */
+/** Social profiles and contact channels; unconfigured ones are skipped. */
 export function getSocialLinks(): SocialLink[] {
   const all: Array<{ name: string; url: string | null }> = [
+    { name: "Email", url: externalLinks.email },
     { name: "LinkedIn", url: externalLinks.linkedin },
     { name: "Instagram", url: externalLinks.instagram },
     { name: "X", url: externalLinks.x },
