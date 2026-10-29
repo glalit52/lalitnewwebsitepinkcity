@@ -36,6 +36,8 @@ function MediaCard({ item }: { item: MediaItem }) {
             alt=""
             fill
             sizes="300px"
+            // Small thumbnails: load them all so cards never scroll in blank.
+            loading="eager"
             draggable={false}
             className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
           />
@@ -144,7 +146,7 @@ export function MediaStrip({ items }: Props) {
           ref={scroller}
           role="list"
           aria-label="Stories and press"
-          className="m-0 grid w-full min-w-0 list-none auto-cols-[100%] grid-flow-col gap-5 overflow-x-auto scroll-smooth p-0 py-2 [scrollbar-width:none] snap-x snap-mandatory sm:auto-cols-[calc((100%-20px)/2)] lg:auto-cols-[calc((100%-40px)/3)] xl:auto-cols-[calc((100%-60px)/4)] data-[dragging=true]:cursor-grabbing data-[dragging=true]:snap-none data-[dragging=true]:scroll-auto md:cursor-grab [&::-webkit-scrollbar]:hidden"
+          className="relative m-0 grid w-full min-w-0 list-none auto-cols-[100%] grid-flow-col gap-5 overflow-x-auto scroll-smooth p-0 py-2 [scrollbar-width:none] snap-x snap-mandatory sm:auto-cols-[calc((100%-20px)/2)] lg:auto-cols-[calc((100%-40px)/3)] xl:auto-cols-[calc((100%-60px)/4)] data-[dragging=true]:cursor-grabbing data-[dragging=true]:snap-none data-[dragging=true]:scroll-auto md:cursor-grab [&::-webkit-scrollbar]:hidden"
           onWheel={() => manual()}
           onTouchStart={() => manual()}
           onPointerDown={(e) => {
@@ -176,7 +178,7 @@ export function MediaStrip({ items }: Props) {
           }}
         >
           {items.map((item) => (
-            <li key={item.url} className="min-w-0 snap-start">
+            <li key={item.url} className="relative min-w-0 snap-start">
               <MediaCard item={item} />
             </li>
           ))}
