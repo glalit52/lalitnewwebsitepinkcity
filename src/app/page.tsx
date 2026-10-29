@@ -42,10 +42,16 @@ function StructuredDataJsonLd() {
           name: "SenseGrass",
           url: "https://sensegrass.com",
         },
-        founder: ventures.map((v) => ({ "@type": "Organization", name: v.name, url: v.url })),
+        // Ventures without a website yet (e.g. Anvita) are listed by name only.
+        founder: ventures.map((v) => ({
+          "@type": "Organization",
+          name: v.name,
+          ...(v.url ? { url: v.url } : {}),
+        })),
         award: [
-          "Forbes India 30 Under 30",
+          "French Tech Ticket",
           "Forbes 30 Under 30 Europe",
+          "Forbes 30 Under 30 India",
           "MIT 35 Under 35",
         ],
         knowsAbout: [
@@ -55,7 +61,9 @@ function StructuredDataJsonLd() {
           "Startup Mentorship",
           "CleanTech",
         ],
-        sameAs: getSocialLinks().map((s) => s.url),
+        sameAs: getSocialLinks()
+          .filter((s) => s.id !== "email")
+          .map((s) => s.url),
       },
     ],
   };
@@ -94,7 +102,7 @@ export default function HomePage() {
         cta="See call options"
       />
       <LifeSection />
-      <SiteFooter variant="connect" heading="Let’s connect" />
+      <SiteFooter />
     </>
   );
 }

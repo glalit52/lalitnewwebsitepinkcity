@@ -14,6 +14,7 @@ export function LifeSection() {
               <figure className="m-0 flex flex-col gap-3">
                 <PhotoFrame
                   src={l.image}
+                  sizes="(min-width: 1240px) 390px, 33vw"
                   alt={l.caption}
                   className="aspect-[3/4] w-full bg-blush rounded-t-[200px] border-[3px] md:border-4 border-pink outline-2 outline-offset-4 outline-indigo"
                   fallback={

@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { JaipurSkyline } from "@/components/brand/JaipurSkyline";
-import { PortraitArch } from "@/components/brand/PortraitArch";
-import { bookCallHref, person } from "@/content/site";
+import { HawaMahalWindow } from "@/components/brand/HawaMahalWindow";
+import { bookCallHref, heroWindow, person } from "@/content/site";
 
 /**
- * Phones & tablets: centred stack with the portrait first (mobile comp).
- * Desktop (≥1024px): copy left, portrait right (desktop comp).
+ * Phones & tablets: centred stack with the Hawa Mahal window first (mobile comp).
+ * Desktop (≥1024px): copy left, window right (desktop comp).
  */
 export function Hero() {
   return (
@@ -50,7 +50,7 @@ export function Hero() {
         </div>
 
         <div className="order-1 mt-2 flex justify-center lg:order-none lg:mt-0 lg:pb-2">
-          <PortraitArch src={person.portrait} alt={`Portrait of ${person.name}`} />
+          <HawaMahalWindow src={heroWindow.image} alt={heroWindow.alt} />
         </div>
       </div>
       <JaipurSkyline className="mt-7 md:mt-10" />

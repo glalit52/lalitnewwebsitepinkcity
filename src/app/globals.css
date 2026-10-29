@@ -184,3 +184,93 @@
     transform: none;
   }
 }
+
+/*
+ * Motion. Every animation here has an explicit reduced-motion state below:
+ * the global reduce rule only shortens durations, which would leave a looping
+ * animation parked on its last frame.
+ */
+@layer components {
+  /*
+   * Hero jharokha: two shutters over the Hawa Mahal. They start closed, swing
+   * open, then close and reopen twice before settling open (~26s in all, so the
+   * motion ends on its own); hovering the window pauses them.
+   */
+  .jharokha-door {
+    backface-visibility: hidden;
+    animation-duration: 1.8s, 9s;
+    animation-delay: 1.2s, 8s;
+    animation-iteration-count: 1, 2;
+    animation-fill-mode: both, none;
+    animation-timing-function: ease-in-out;
+  }
+  .jharokha:hover .jharokha-door {
+    animation-play-state: paused;
+  }
+  .jharokha-door-left {
+    transform-origin: left center;
+    animation-name: jharokha-left-open, jharokha-left-cycle;
+  }
+  .jharokha-door-right {
+    transform-origin: right center;
+    animation-name: jharokha-right-open, jharokha-right-cycle;
+  }
+
+  /* One-by-one title reveal (book window). */
+  .title-in {
+    animation: title-in 600ms ease-out both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .jharokha-door {
+      display: none;
+    }
+  }
+}
+
+@keyframes jharokha-left-open {
+  from {
+    transform: perspective(900px) rotateY(0deg);
+  }
+  to {
+    transform: perspective(900px) rotateY(-104deg);
+  }
+}
+@keyframes jharokha-left-cycle {
+  0%,
+  100% {
+    transform: perspective(900px) rotateY(-104deg);
+  }
+  35%,
+  55% {
+    transform: perspective(900px) rotateY(0deg);
+  }
+}
+@keyframes jharokha-right-open {
+  from {
+    transform: perspective(900px) rotateY(0deg);
+  }
+  to {
+    transform: perspective(900px) rotateY(104deg);
+  }
+}
+@keyframes jharokha-right-cycle {
+  0%,
+  100% {
+    transform: perspective(900px) rotateY(104deg);
+  }
+  35%,
+  55% {
+    transform: perspective(900px) rotateY(0deg);
+  }
+}
+@keyframes title-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

@@ -30,6 +30,8 @@ function BookACallJsonLd() {
           name: person.name,
           url: siteUrl,
         },
+        // Only fixed-price calls get an Offer; "price on request" has no amount to state.
+        ...(s.priceInr ? { offers: { "@type": "Offer", price: s.priceInr, priceCurrency: "INR" } } : {}),
       },
     })),
   };
@@ -56,7 +58,18 @@ function ServiceCard({ s }: { s: CallService }) {
       <p className={`m-0 text-[13px] font-semibold uppercase tracking-[0.2em] ${f ? "text-marigold" : "text-maroon"}`}>{s.tag}</p>
       <h2 className="m-0 font-display text-[34px] font-normal leading-[1.1] md:text-[40px]">{s.name}</h2>
       <p className="m-0">{s.desc}</p>
-      {s.price ? <p className="m-0 py-2 font-display text-[30px]">{s.price}</p> : <div className="h-3" aria-hidden="true" />}
+      {s.price ? (
+        // Numeric prices read large; "Price on request" is set smaller so it doesn't shout.
+        <p
+          className={`m-0 flex min-h-[60px] items-center justify-center font-display ${
+            s.priceInr ? "text-[30px]" : `text-[21px] ${f ? "text-ivory/85" : "text-ink-muted"}`
+          }`}
+        >
+          {s.price}
+        </p>
+      ) : (
+        <div className="h-3" aria-hidden="true" />
+      )}
       {externalLinks.topmate ? (
         <a href={externalLinks.topmate} target="_blank" rel="noopener noreferrer" className={btn}>
           Book on Topmate
@@ -89,18 +102,19 @@ export default function BookACallPage() {
 
       <section className="bg-blush py-16 md:py-24" aria-labelledby="areas-title">
         <div className="wrap flex flex-col gap-10">
-          <SectionHeading id="areas-title" eyebrow="What we can talk about" title="Nine areas of advice" />
-          <ol className="m-0 grid list-none gap-4 p-0 md:grid-cols-2 lg:grid-cols-3">
+          <SectionHeading id="areas-title" eyebrow="What we can talk about" title="Areas of advice" />
+          {/* On three columns a lone last card (10 areas → 3+3+3+1) moves to the middle column. */}
+          <ol className="m-0 grid list-none gap-4 p-0 md:grid-cols-2 lg:grid-cols-3 lg:[&>li:last-child:nth-child(3n+1)]:col-start-2">
             {adviceAreas.map((a, i) => (
               <li key={a.title} className="flex items-start gap-4 rounded-2xl border-2 border-blush-line bg-ivory px-6 py-[22px]">
                 <span
                   aria-hidden="true"
-                  className="box-border flex h-12 w-10 flex-none items-center justify-center rounded-[20px_20px_4px_4px] bg-indigo pt-1.5 font-display text-lg text-marigold"
+                  className="box-border flex h-12 w-10 flex-none items-center justify-center rounded-[20px_20px_4px_4px] bg-indigo pt-1.5 font-display text-lg tabular-nums tracking-[-0.02em] text-marigold"
                 >
                   {i + 1}
                 </span>
-                <div>
-                  <h3 className="m-0 text-[19px] font-semibold text-indigo md:text-xl">{a.title}</h3>
+                <div className="min-w-0">
+                  <h3 className="m-0 text-[19px] font-semibold leading-snug text-indigo md:text-xl">{a.title}</h3>
                   <p className="m-0 mt-0.5 text-[16px] text-ink-muted md:text-[17px]">{a.line}</p>
                 </div>
               </li>
@@ -132,7 +146,7 @@ export default function BookACallPage() {
         </div>
       </section>
 
-      <SiteFooter variant="connect" heading="Prefer to just say hello?" />
+      <SiteFooter />
     </>
   );
 }

@@ -4,12 +4,12 @@ import { SiteFooter } from "@/components/layout/SiteFooter";
 import { CtaBand } from "@/components/ui/CtaBand";
 import { PhotoFrame } from "@/components/ui/PhotoFrame";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { affiliations, bookCallHref, ventures, type Venture } from "@/content/site";
+import { advocacy, affiliations, bookCallHref, ventures, type Venture } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Ventures",
   description:
-    "SenseGrass, HandsCart and ConnectBorder — four awarded startups, one exit and $4.5M+ raised, building where technology meets real-world impact.",
+    "SenseGrass, HandsCart, ConnectBorder and Anvita — one exit and $5.5M+ raised, building where technology meets real-world impact.",
   alternates: { canonical: "/ventures" },
 };
 
@@ -24,7 +24,8 @@ function VenturesJsonLd() {
       item: {
         "@type": "Organization",
         name: v.name,
-        url: v.url,
+        // Not every venture has a website yet — leave the property out rather than emit `undefined`.
+        ...(v.url ? { url: v.url } : {}),
         description: v.summary,
       },
     })),
@@ -40,8 +41,9 @@ function VenturesJsonLd() {
 function VentureRow({ v, flip }: { v: Venture; flip: boolean }) {
   return (
     <article
+      id={v.slug}
       aria-labelledby={`venture-${v.slug}`}
-      className="grid items-center gap-10 md:gap-14 lg:grid-cols-2"
+      className="grid scroll-mt-24 items-center gap-10 md:gap-14 lg:grid-cols-2"
     >
       <div className={`flex justify-center ${flip ? "lg:order-2" : ""}`}>
         <PhotoFrame
@@ -64,23 +66,28 @@ function VentureRow({ v, flip }: { v: Venture; flip: boolean }) {
           {v.name}
         </h2>
         <p className="m-0 text-[19px] font-medium md:text-[22px]">{v.lede}</p>
-        <ul className="m-0 flex list-none flex-col gap-2.5 p-0">
-          {v.points.map((p) => (
-            <li key={p} className="flex items-baseline gap-3.5">
-              <span aria-hidden="true" className="size-2.5 flex-none rotate-45 bg-terracotta" />
-              <span>{p}</span>
-            </li>
-          ))}
-        </ul>
-        <a
-          href={v.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn mt-2 self-start bg-indigo text-ivory hover:text-ivory md:px-[26px] md:py-3.5"
-        >
-          Visit {v.domain}
-          <span className="sr-only"> (opens in a new tab)</span>
-        </a>
+        {v.points.length > 0 && (
+          <ul className="m-0 flex list-none flex-col gap-2.5 p-0">
+            {v.points.map((p) => (
+              <li key={p} className="flex items-baseline gap-3.5">
+                <span aria-hidden="true" className="size-2.5 flex-none rotate-45 bg-terracotta" />
+                <span>{p}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+        {/* Hidden until the venture has a website — never render a dead link. */}
+        {v.url && (
+          <a
+            href={v.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn mt-2 self-start bg-indigo text-ivory hover:text-ivory md:px-[26px] md:py-3.5"
+          >
+            Visit {v.domain ?? v.name}
+            <span className="sr-only"> (opens in a new tab)</span>
+          </a>
+        )}
       </div>
     </article>
   );
@@ -92,8 +99,8 @@ export default function VenturesPage() {
       <VenturesJsonLd />
       <PageHero
         eyebrow="VENTURES"
-        title="From soil to marketplaces"
-        intro="Four awarded startups, one exit and $4.5M+ raised — building where technology meets real-world impact."
+        title="From soil to marketplaces to AI"
+        intro="One exit and $5.5M+ raised — building where technology meets real-world impact."
       />
 
       <section className="py-16 md:py-24" aria-label="Ventures">
@@ -108,9 +115,7 @@ export default function VenturesPage() {
         <div className="wrap grid gap-5 md:gap-7 lg:grid-cols-2">
           <div className="flex flex-col gap-3 rounded-3xl bg-ivory p-7 md:p-11">
             <SectionHeading eyebrow="Advocating" title="Speaking up for what matters" size="md" />
-            <p className="m-0">
-              Promoting social justice, environmental sustainability and individual rights — on stage and off it.
-            </p>
+            <p className="m-0">{advocacy}</p>
           </div>
           <div className="flex flex-col gap-3 rounded-3xl bg-ivory p-7 md:p-11">
             <SectionHeading eyebrow="Supporting" title="Mentoring founders to go global" size="md" />
@@ -132,7 +137,7 @@ export default function VenturesPage() {
         href={bookCallHref}
         cta="Book a call"
       />
-      <SiteFooter variant="simple" tone="lattice" />
+      <SiteFooter />
     </>
   );
 }

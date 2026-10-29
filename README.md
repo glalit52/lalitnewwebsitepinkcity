@@ -49,9 +49,15 @@ link is set) are Server Actions with `useActionState`:
 
 - Instant client-side validation (native constraints, inline accessible messages), re-validated
   on the server with zod. Honeypot field + per-IP rate limit (in-memory, per instance).
-- Delivery: POST JSON to `INQUIRY_WEBHOOK_URL` (Zapier/Make/Slack/CRM/your API). In development
-  without a webhook, submissions are logged and the success message says so; in production
-  without one, the form shows an honest "not available" error.
+- Recipients: `INQUIRY_INBOX_EMAIL`, a comma-separated list (default: `lalit@sensegrass.com`
+  and `glalit52@gmail.com`).
+- Delivery: with `RESEND_API_KEY`, a branded email goes to every recipient (reply-to = the
+  visitor). Resend's default `onboarding@resend.dev` sender can only reach the Resend account
+  owner, so with more than one recipient verify a domain and set `RESEND_FROM_EMAIL`. With
+  `INQUIRY_WEBHOOK_URL`, the submission is also POSTed as JSON (Zapier/Make/Slack/CRM/your API)
+  with `recipient` (joined) and `recipients` (array). In development with neither, submissions
+  are logged and the success message says so; in production with neither, the form shows an
+  honest "not available" error.
 
 ## Content still to supply
 
@@ -60,4 +66,6 @@ The design marked these as placeholders; the UI omits or substitutes them cleanl
 - Photos: portrait (`person.portrait`), venture product images, UN Geneva photo, three "Life"
   photos — put files in `public/images/` and set the paths in `src/content/site.ts`.
 - Call prices (`callServices[].price`), book summary, UN talk description, MIT 35 Under 35 year.
-- Topmate, book/sample and social profile URLs (`.env`).
+- Topmate, book/sample and social profile URLs (`.env`: `NEXT_PUBLIC_FACEBOOK_URL`, `_X_URL`,
+  `_WHATSAPP_URL`, `_INSTAGRAM_URL`, `_YOUTUBE_URL`, `_LINKEDIN_URL`, `_TOPMATE_URL`) — each
+  one set adds a logo button to the footer.

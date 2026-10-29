@@ -20,5 +20,15 @@ describe("getSocialLinks", () => {
     const emailLink = links.find((l) => l.name === "Email");
     expect(emailLink).toBeDefined();
     expect(emailLink?.url).toBe("mailto:lalit@sensegrass.com");
+    expect(emailLink?.id).toBe("email");
+  });
+
+  it("lists email first and hides unconfigured social profiles", async () => {
+    const { getSocialLinks } = await import("./links");
+    const links = getSocialLinks();
+    expect(links[0]?.id).toBe("email");
+    for (const link of links) {
+      expect(link.url).toMatch(/^(mailto:|https?:\/\/)/);
+    }
   });
 });

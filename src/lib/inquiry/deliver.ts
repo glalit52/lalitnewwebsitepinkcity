@@ -1,5 +1,4 @@
 import "server-only";
-import { person } from "@/content/site";
 import type { InquiryKind } from "./schema";
 
 export type DeliveryResult =
@@ -8,8 +7,31 @@ export type DeliveryResult =
 
 export type Deliver = (kind: InquiryKind, payload: Record<string, unknown>) => Promise<DeliveryResult>;
 
-export const DEFAULT_INBOX_EMAIL = "lalit@sensegrass.com";
+/** Where submissions go when INQUIRY_INBOX_EMAIL is unset — the client asked for both inboxes. */
+export const DEFAULT_INBOX_EMAILS: readonly string[] = ["lalit@sensegrass.com", "glalit52@gmail.com"];
+/** Primary inbox (first of the defaults). */
+export const DEFAULT_INBOX_EMAIL = DEFAULT_INBOX_EMAILS[0];
 export const DEFAULT_FROM_EMAIL = "Lalit Gautam Website <onboarding@resend.dev>";
+
+const EMAIL_RE = /^[^\s@,;<>"]+@[^\s@,;<>"]+\.[^\s@,;<>"]+$/;
+
+/**
+ * Parses INQUIRY_INBOX_EMAIL ("a@x.com, b@y.com") into a trimmed, de-duplicated
+ * list, dropping anything that doesn't look like an address. Falls back to the
+ * defaults when nothing valid is left.
+ */
+export function parseInboxEmails(value: string | undefined | null): string[] {
+  const seen = new Set<string>();
+  const out: string[] = [];
+  for (const raw of (value ?? "").split(",")) {
+    const email = raw.trim();
+    const key = email.toLowerCase();
+    if (!email || !EMAIL_RE.test(email) || seen.has(key)) continue;
+    seen.add(key);
+    out.push(email);
+  }
+  return out.length > 0 ? out : [...DEFAULT_INBOX_EMAILS];
+}
 
 function escapeHtml(str: string): string {
   return str
@@ -20,7 +42,12 @@ function escapeHtml(str: string): string {
     .replace(/'/g, "&#039;");
 }
 
-export function formatInquiryEmail(kind: InquiryKind, payload: Record<string, unknown>, recipient: string) {
+export function formatInquiryEmail(
+  kind: InquiryKind,
+  payload: Record<string, unknown>,
+  recipients: string | readonly string[],
+) {
+  const recipient = typeof recipients === "string" ? recipients : recipients.join(", ");
   const isSpeaking = kind === "speaking";
   const name = String(payload.name ?? "Anonymous");
   const email = String(payload.email ?? "");
@@ -126,13 +153,17 @@ To reply directly, simply hit "Reply" in your email client (sends to ${email}).
  * Delivers inquiry submissions.
  *
  * Priority:
- * 1. RESEND_API_KEY: Sends direct branded email to lalit@sensegrass.com with reply_to set to visitor's email.
+ * Recipients: INQUIRY_INBOX_EMAIL (comma-separated), else DEFAULT_INBOX_EMAILS.
+ *
+ * 1. RESEND_API_KEY: Sends a branded email to each recipient (one request per inbox; succeeds if any
+ *    arrives) with reply_to set to the visitor's email.
  * 2. INQUIRY_WEBHOOK_URL: POSTs full submission JSON to external webhook (Zapier, Make, Slack, CRM).
  * 3. Development fallback: Logs nicely to console.
  * 4. Production fallback without config: Reports honest "not-configured" error.
  */
 export const deliverInquiry: Deliver = async (kind, payload) => {
-  const recipient = process.env.INQUIRY_INBOX_EMAIL || person.email || DEFAULT_INBOX_EMAIL;
+  const recipients = parseInboxEmails(process.env.INQUIRY_INBOX_EMAIL);
+  const recipient = recipients.join(", ");
   const resendApiKey = process.env.RESEND_API_KEY?.trim();
   const webhookUrl = process.env.INQUIRY_WEBHOOK_URL?.trim();
 
@@ -151,36 +182,45 @@ export const deliverInquiry: Deliver = async (kind, payload) => {
   // 1. Send direct email via Resend if RESEND_API_KEY is provided
   if (resendApiKey) {
     try {
-      const emailContent = formatInquiryEmail(kind, payload, recipient);
+      const emailContent = formatInquiryEmail(kind, payload, recipients);
       const fromEmail = process.env.RESEND_FROM_EMAIL?.trim() || DEFAULT_FROM_EMAIL;
 
-      const res = await fetch("https://api.resend.com/emails", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${resendApiKey}`,
-          "Content-Type": "application/json",
-          "User-Agent": "LalitGautamSite/1.0 (+https://lalitgautam.com)",
-        },
-        body: JSON.stringify({
-          from: fromEmail,
-          to: [recipient],
-          reply_to: emailContent.replyTo || undefined,
-          subject: emailContent.subject,
-          text: emailContent.plainText,
-          html: emailContent.html,
+      // One request per inbox: Resend rejects a whole multi-recipient send if any
+      // address is disallowed (e.g. the onboarding@resend.dev sender may only mail
+      // the account owner), which would otherwise lose the submission everywhere.
+      const results = await Promise.allSettled(
+        recipients.map(async (to) => {
+          const res = await fetch("https://api.resend.com/emails", {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${resendApiKey}`,
+              "Content-Type": "application/json",
+              "User-Agent": "LalitGautamSite/1.0 (+https://lalitgautam.com)",
+            },
+            body: JSON.stringify({
+              from: fromEmail,
+              to: [to],
+              reply_to: emailContent.replyTo || undefined,
+              subject: emailContent.subject,
+              text: emailContent.plainText,
+              html: emailContent.html,
+            }),
+            signal: AbortSignal.timeout(10_000),
+            cache: "no-store",
+          });
+          if (!res.ok) {
+            const errorBody = await res.text().catch(() => "");
+            throw new Error(`Resend API error for ${to} (${res.status}): ${errorBody}`);
+          }
         }),
-        signal: AbortSignal.timeout(10_000),
-        cache: "no-store",
-      });
+      );
 
-      if (!res.ok) {
-        const errorBody = await res.text().catch(() => "");
-        console.error(`[inquiry:${kind}] Resend API error (${res.status}): ${errorBody}`);
-        // If webhook is not configured, this is a failure
-        if (!webhookUrl) return { ok: false, reason: "failed" };
-      } else {
-        deliveredViaEmail = true;
+      for (const r of results) {
+        if (r.status === "rejected") console.error(`[inquiry:${kind}]`, r.reason);
       }
+      deliveredViaEmail = results.some((r) => r.status === "fulfilled");
+      // If webhook is not configured, this is a failure
+      if (!deliveredViaEmail && !webhookUrl) return { ok: false, reason: "failed" };
     } catch (err) {
       console.error(`[inquiry:${kind}] Failed to dispatch email via Resend:`, err);
       if (!webhookUrl) return { ok: false, reason: "failed" };
@@ -203,7 +243,9 @@ export const deliverInquiry: Deliver = async (kind, payload) => {
         headers,
         body: JSON.stringify({
           kind,
+          // `recipient` (joined) is kept for existing webhook consumers.
           recipient,
+          recipients,
           submittedAt: new Date().toISOString(),
           ...payload,
         }),

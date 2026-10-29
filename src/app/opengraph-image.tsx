@@ -91,7 +91,7 @@ export default function Image() {
           }}
         >
           <span style={{ fontSize: "20px", color: "#FFF6EA", opacity: 0.9 }}>
-            Forbes 30 Under 30 · MIT 35 Under 35 · Founder, SenseGrass
+            TEDx speaker · Forbes 30 Under 30 · MIT 35 Under 35 · Founder, SenseGrass
           </span>
           <span
             style={{

@@ -18,8 +18,9 @@ export function safeExternalUrl(value: string | undefined | null): string | null
 export const siteUrl =
   safeExternalUrl(process.env.NEXT_PUBLIC_SITE_URL) ?? "https://lalitgautam.com";
 
+// `||`, not `??`: a blank `NEXT_PUBLIC_CONTACT_EMAIL=` must fall back too.
 export const contactEmail =
-  process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "lalit@sensegrass.com";
+  process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || "lalit@sensegrass.com";
 
 export const externalLinks = {
   email: `mailto:${contactEmail}`,
@@ -31,20 +32,27 @@ export const externalLinks = {
   x: safeExternalUrl(process.env.NEXT_PUBLIC_X_URL),
   facebook: safeExternalUrl(process.env.NEXT_PUBLIC_FACEBOOK_URL),
   whatsapp: safeExternalUrl(process.env.NEXT_PUBLIC_WHATSAPP_URL),
+  youtube: safeExternalUrl(process.env.NEXT_PUBLIC_YOUTUBE_URL),
 } as const;
 
-export type SocialLink = { name: string; url: string };
+export type SocialId = "email" | "facebook" | "x" | "whatsapp" | "instagram" | "youtube" | "linkedin" | "topmate";
+export type SocialLink = { id: SocialId; name: string; url: string };
 
-/** Social profiles and contact channels; unconfigured ones are skipped. */
+/**
+ * Contact channels in footer order — email first, then the social profiles
+ * from the brief (Facebook, X/Twitter, WhatsApp, Instagram, YouTube).
+ * Unconfigured ones are skipped.
+ */
 export function getSocialLinks(): SocialLink[] {
-  const all: Array<{ name: string; url: string | null }> = [
-    { name: "Email", url: externalLinks.email },
-    { name: "LinkedIn", url: externalLinks.linkedin },
-    { name: "Instagram", url: externalLinks.instagram },
-    { name: "X", url: externalLinks.x },
-    { name: "Facebook", url: externalLinks.facebook },
-    { name: "Topmate", url: externalLinks.topmate },
-    { name: "WhatsApp", url: externalLinks.whatsapp },
+  const all: Array<{ id: SocialId; name: string; url: string | null }> = [
+    { id: "email", name: "Email", url: externalLinks.email },
+    { id: "facebook", name: "Facebook", url: externalLinks.facebook },
+    { id: "x", name: "X (Twitter)", url: externalLinks.x },
+    { id: "whatsapp", name: "WhatsApp", url: externalLinks.whatsapp },
+    { id: "instagram", name: "Instagram", url: externalLinks.instagram },
+    { id: "youtube", name: "YouTube", url: externalLinks.youtube },
+    { id: "linkedin", name: "LinkedIn", url: externalLinks.linkedin },
+    { id: "topmate", name: "Topmate", url: externalLinks.topmate },
   ];
   return all.filter((s): s is SocialLink => s.url !== null);
 }

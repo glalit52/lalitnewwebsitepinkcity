@@ -3,29 +3,34 @@ import { BookCover } from "@/components/brand/BookCover";
 import { SpeakingInviteForm } from "@/components/forms/SpeakingInviteForm";
 import { PageHero } from "@/components/layout/PageHero";
 import { SiteFooter } from "@/components/layout/SiteFooter";
+import { MediaStrip } from "@/components/speaking/MediaStrip";
 import { PhotoFrame } from "@/components/ui/PhotoFrame";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { book, person, topics, unTalk } from "@/content/site";
+import { books, featuredBook, media, person, tedxTalk, topics, unTalk } from "@/content/site";
 import { externalLinks, siteUrl } from "@/lib/links";
 
 export const metadata: Metadata = {
   title: "Speaking & book",
-  description:
-    "100+ talks at universities, summits and the United Nations in Geneva — plus the book “How to Win the Hardest Marathon”. Invite Lalit Gautam to speak.",
+  description: `100+ talks at universities, summits, TEDx and the United Nations in Geneva — plus ${
+    books.length > 1 ? "books including" : "the book"
+  } “${featuredBook.title}”. Invite Lalit Gautam to speak.`,
   alternates: { canonical: "/speaking" },
 };
 
 function SpeakingJsonLd() {
   const data = {
     "@context": "https://schema.org",
-    "@type": "Book",
-    name: book.title,
-    author: {
-      "@type": "Person",
-      name: person.name,
-      url: siteUrl,
-    },
-    inLanguage: "en",
+    "@graph": books.map((b) => ({
+      "@type": "Book",
+      name: b.title,
+      ...(b.summary ? { description: b.summary } : {}),
+      author: {
+        "@type": "Person",
+        name: person.name,
+        url: siteUrl,
+      },
+      inLanguage: "en",
+    })),
   };
   return (
     <script
@@ -37,9 +42,15 @@ function SpeakingJsonLd() {
 
 export default function SpeakingPage() {
   const bookLinks = [
-    externalLinks.book && { href: externalLinks.book, label: "Get the book", primary: true },
+    (externalLinks.book ?? featuredBook.url) && {
+      href: (externalLinks.book ?? featuredBook.url) as string,
+      label: "Get the book",
+      primary: true,
+    },
     externalLinks.bookSample && { href: externalLinks.bookSample, label: "Read a sample", primary: false },
   ].filter(Boolean) as Array<{ href: string; label: string; primary: boolean }>;
+  // "TEDxTajNagri · Agra · 2022" → "TEDxTajNagri"
+  const tedxEventName = tedxTalk.event.split(" · ")[0];
 
   return (
     <>
@@ -65,7 +76,9 @@ export default function SpeakingPage() {
                 >
                   {i + 1}
                 </span>
-                <h3 className="m-0 font-display text-[24px] font-normal leading-[1.2] text-indigo md:text-[26px]">{t}</h3>
+                <h3 className="m-0 text-balance font-display text-[24px] font-normal leading-[1.2] text-indigo md:text-[26px] lg:text-[22px] xl:text-[24px]">
+                  {t}
+                </h3>
               </li>
             ))}
           </ol>
@@ -76,9 +89,9 @@ export default function SpeakingPage() {
         <div className="wrap grid items-center gap-10 md:gap-12 lg:grid-cols-2">
           <PhotoFrame
             src={unTalk.image}
-            alt="Lalit Gautam speaking at the United Nations in Geneva"
+            alt="Lalit Gautam at the United Nations, Geneva — High-Level Dialogue on Innovation for Sustainable Development, 2020: poster and white paper"
             sizes="(min-width: 1024px) 560px, 100vw"
-            className="aspect-[16/10] w-full rounded-[18px] border-4 border-ivory bg-indigo-soft"
+            className="aspect-[3/2] w-full rounded-[18px] border-4 border-ivory bg-indigo-soft"
             fallback={
               <span className="flex flex-col items-center gap-3 text-center">
                 <svg aria-hidden="true" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#F2B33D" strokeWidth="1.4">
@@ -96,12 +109,65 @@ export default function SpeakingPage() {
         </div>
       </section>
 
+      <section className="bg-blush py-16 md:py-[88px]" aria-labelledby="tedx-title">
+        <div className="wrap grid items-center gap-10 md:gap-12 lg:grid-cols-2">
+          <PhotoFrame
+            src={tedxTalk.image}
+            alt={`Lalit Gautam giving his talk “${tedxTalk.title}” on stage at ${tedxEventName}`}
+            sizes="(min-width: 1024px) 560px, 100vw"
+            className="aspect-video w-full rounded-[18px] border-4 border-ivory bg-ink shadow-[0_0_0_2px_#22306B] lg:order-last"
+            fallback={
+              <span className="flex flex-col items-center gap-2 px-6 text-center">
+                <span className="font-sans text-[64px] font-extrabold leading-none tracking-[-0.04em] text-[#e62b1e] md:text-[88px]">
+                  TED<span className="text-[0.9em]">x</span>
+                </span>
+                <span className="text-xs font-semibold tracking-[0.12em] text-ivory md:text-sm">{tedxTalk.event}</span>
+              </span>
+            }
+          />
+          <div className="flex flex-col gap-3.5">
+            <SectionHeading id="tedx-title" eyebrow={<span className="normal-case">{tedxTalk.eyebrow}</span>} title={tedxTalk.title} size="md" />
+            <p className="m-0 text-[15px] font-semibold tracking-[0.04em] text-maroon md:text-base">{tedxTalk.event}</p>
+            {tedxTalk.description ? <p className="m-0 text-ink-soft">{tedxTalk.description}</p> : null}
+            <div className="flex flex-wrap gap-3 pt-1.5">
+              {tedxTalk.watchUrl ? (
+                <a
+                  href={tedxTalk.watchUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn bg-indigo text-ivory hover:text-ivory"
+                >
+                  <svg aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+                    <path d="M3 1.5l9.5 5.5L3 12.5z" />
+                  </svg>
+                  Watch the talk
+                  <span className="sr-only"> (opens in a new tab)</span>
+                </a>
+              ) : null}
+              <a
+                href={tedxTalk.eventUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn border-2 border-indigo bg-transparent text-indigo hover:bg-ivory"
+              >
+                {tedxEventName} event page
+                <span className="sr-only"> (opens in a new tab)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section id="book" className="scroll-mt-24 py-16 md:py-[104px]" aria-labelledby="book-title">
         <div className="wrap grid items-center gap-12 md:gap-16 lg:grid-cols-2">
           <BookCover variant="feature" />
           <div className="flex flex-col gap-4">
-            <SectionHeading id="book-title" eyebrow="The book" title={book.title} />
-            {book.summary ? <p className="m-0 text-ink-soft">{book.summary}</p> : null}
+            <SectionHeading
+              id="book-title"
+              eyebrow={books.length > 1 ? "Featured book" : "The book"}
+              title={featuredBook.title}
+            />
+            {featuredBook.summary ? <p className="m-0 text-ink-soft">{featuredBook.summary}</p> : null}
             {bookLinks.length ? (
               <div className="flex flex-wrap gap-3 pt-1.5">
                 {bookLinks.map((l) => (
@@ -132,13 +198,24 @@ export default function SpeakingPage() {
         </div>
       </section>
 
+      {media.length ? (
+        <section id="media" className="scroll-mt-24 bg-blush py-16 md:py-24" aria-labelledby="media-title">
+          <div className="flex flex-col gap-10 md:gap-11">
+            <div className="wrap">
+              <SectionHeading id="media-title" eyebrow="In the media" title="Stories & press" />
+            </div>
+            <MediaStrip items={media} />
+          </div>
+        </section>
+      ) : null}
+
       <section id="invite" className="lattice scroll-mt-24 py-16 md:py-24">
         <div className="wrap flex justify-center">
           <SpeakingInviteForm />
         </div>
       </section>
 
-      <SiteFooter variant="simple" tone="indigo" />
+      <SiteFooter />
     </>
   );
 }

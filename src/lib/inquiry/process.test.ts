@@ -103,4 +103,48 @@ describe("processInquiry", () => {
     });
     expect(state).toMatchObject({ status: "success", message: expect.stringContaining("Development mode") });
   });
+
+  describe("with a store (MongoDB)", () => {
+    function fakeStore(saveResult: { ok: true; id: string } | { ok: false; reason: "not-configured" | "failed" }) {
+      return { save: vi.fn(async () => saveResult), markDelivery: vi.fn(async () => {}) };
+    }
+
+    it("saves, emails, records the delivery and returns the id", async () => {
+      const store = fakeStore({ ok: true, id: "abc123" });
+      const deliver = vi.fn(ok);
+      const state = await processInquiry("speaking", form(validInvite), { deliver, store, clientKey: "s1" });
+      expect(state).toMatchObject({ status: "success", id: "abc123" });
+      expect(store.save).toHaveBeenCalledWith("speaking", validInvite, expect.objectContaining({ clientKey: "s1" }));
+      expect(store.markDelivery).toHaveBeenCalledWith("abc123", { ok: true, mode: "webhook" });
+    });
+
+    it("still succeeds when saved but the email fails", async () => {
+      const store = fakeStore({ ok: true, id: "abc124" });
+      const deliver = vi.fn(async () => ({ ok: false as const, reason: "failed" as const }));
+      const state = await processInquiry("speaking", form(validInvite), { deliver, store, clientKey: "s2" });
+      expect(state.status).toBe("success");
+      expect(store.markDelivery).toHaveBeenCalledWith("abc124", { ok: false, reason: "failed" });
+    });
+
+    it("still succeeds when emailed but the save fails", async () => {
+      const store = fakeStore({ ok: false, reason: "failed" });
+      const state = await processInquiry("speaking", form(validInvite), { deliver: vi.fn(ok), store, clientKey: "s3" });
+      expect(state.status).toBe("success");
+      expect(store.markDelivery).not.toHaveBeenCalled();
+    });
+
+    it("fails with code 'failed' when both save and email fail", async () => {
+      const store = fakeStore({ ok: false, reason: "failed" });
+      const deliver = vi.fn(async () => ({ ok: false as const, reason: "failed" as const }));
+      const state = await processInquiry("speaking", form(validInvite), { deliver, store, clientKey: "s4" });
+      expect(state).toMatchObject({ status: "error", code: "failed" });
+    });
+
+    it("reports 'unavailable' when neither database nor email is configured", async () => {
+      const store = fakeStore({ ok: false, reason: "not-configured" });
+      const deliver = vi.fn(async () => ({ ok: false as const, reason: "not-configured" as const }));
+      const state = await processInquiry("speaking", form(validInvite), { deliver, store, clientKey: "s5" });
+      expect(state).toMatchObject({ status: "error", code: "unavailable" });
+    });
+  });
 });

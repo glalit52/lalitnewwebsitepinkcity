@@ -3,10 +3,19 @@
 
 export type FieldErrors = Partial<Record<string, string>>;
 
+/** Why a submission failed — lets the API map errors to HTTP statuses. */
+export type InquiryErrorCode = "invalid" | "rate-limited" | "unavailable" | "failed";
+
 export type InquiryState =
   | { status: "idle" }
-  | { status: "success"; message: string }
-  | { status: "error"; message: string; fieldErrors?: FieldErrors; values?: Record<string, string> };
+  | { status: "success"; message: string; id?: string }
+  | {
+      status: "error";
+      code?: InquiryErrorCode;
+      message: string;
+      fieldErrors?: FieldErrors;
+      values?: Record<string, string>;
+    };
 
 export const initialInquiryState: InquiryState = { status: "idle" };
 

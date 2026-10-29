@@ -35,7 +35,7 @@ const tiro = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: { default: `${person.name} — Entrepreneur, speaker & mentor`, template: `%s · ${person.name}` },
-  description: `${person.tagline} Founder of SenseGrass, Forbes 30 Under 30, MIT 35 Under 35.`,
+  description: `${person.tagline} TEDx speaker, founder of SenseGrass, Forbes 30 Under 30, MIT 35 Under 35.`,
   applicationName: person.name,
   authors: [{ name: person.name, url: siteUrl }],
   creator: person.name,
@@ -54,12 +54,12 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: siteUrl,
     title: `${person.name} — Entrepreneur, speaker & mentor`,
-    description: `${person.tagline} Founder of SenseGrass, Forbes 30 Under 30, MIT 35 Under 35.`,
+    description: `${person.tagline} TEDx speaker, founder of SenseGrass, Forbes 30 Under 30, MIT 35 Under 35.`,
   },
   twitter: {
     card: "summary_large_image",
     title: `${person.name} — Entrepreneur, speaker & mentor`,
-    description: `${person.tagline} Founder of SenseGrass, Forbes 30 Under 30, MIT 35 Under 35.`,
+    description: `${person.tagline} TEDx speaker, founder of SenseGrass, Forbes 30 Under 30, MIT 35 Under 35.`,
     creator: "@lalitgautam",
   },
   icons: {
