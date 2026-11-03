@@ -12,7 +12,33 @@ import { bookCallHref, person, ventures } from "@/content/site";
 import { getSocialLinks, siteUrl } from "@/lib/links";
 
 export const metadata: Metadata = {
+  title: `${person.name} — Entrepreneur, TEDx Speaker & Mentor`,
+  description: `${person.tagline} TEDx speaker, founder of SenseGrass, Forbes 30 Under 30, MIT 35 Under 35. $5.5M+ raised, 1 exit.`,
   alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "/",
+    siteName: person.name,
+    title: `${person.name} — Entrepreneur, TEDx Speaker & Mentor`,
+    description: `${person.tagline} TEDx speaker, founder of SenseGrass, Forbes 30 Under 30, MIT 35 Under 35.`,
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: `${person.name} — Entrepreneur, TEDx Speaker & Mentor`,
+        type: "image/jpeg",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${person.name} — Entrepreneur, TEDx Speaker & Mentor`,
+    description: `${person.tagline} TEDx speaker, founder of SenseGrass, Forbes 30 Under 30, MIT 35 Under 35.`,
+    creator: "@lalitgautam",
+    images: ["/twitter-image.jpg"],
+  },
 };
 
 function StructuredDataJsonLd() {

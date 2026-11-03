@@ -4,13 +4,39 @@ import { SiteFooter } from "@/components/layout/SiteFooter";
 import { CtaBand } from "@/components/ui/CtaBand";
 import { PhotoFrame } from "@/components/ui/PhotoFrame";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { advocacy, affiliations, bookCallHref, ventures, type Venture } from "@/content/site";
+import { advocacy, affiliations, bookCallHref, person, ventures, type Venture } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Ventures",
   description:
     "SenseGrass, HandsCart, ConnectBorder and Anvita — one exit and $5.5M+ raised, building where technology meets real-world impact.",
   alternates: { canonical: "/ventures" },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "/ventures",
+    siteName: person.name,
+    title: `Ventures · ${person.name}`,
+    description:
+      "SenseGrass, HandsCart, ConnectBorder and Anvita — one exit and $5.5M+ raised, building where technology meets real-world impact.",
+    images: [
+      {
+        url: "/images/og-ventures.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Lalit Gautam · Ventures — SenseGrass, HandsCart, ConnectBorder, Anvita",
+        type: "image/jpeg",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `Ventures · ${person.name}`,
+    description:
+      "SenseGrass, HandsCart, ConnectBorder and Anvita — one exit and $5.5M+ raised, building where technology meets real-world impact.",
+    creator: "@lalitgautam",
+    images: ["/images/og-ventures.jpg"],
+  },
 };
 
 function VenturesJsonLd() {

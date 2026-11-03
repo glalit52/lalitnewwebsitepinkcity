@@ -15,6 +15,32 @@ export const metadata: Metadata = {
     books.length > 1 ? "books including" : "the book"
   } “${featuredBook.title}”. Invite Lalit Gautam to speak.`,
   alternates: { canonical: "/speaking" },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "/speaking",
+    siteName: person.name,
+    title: `Speaking & Book · ${person.name}`,
+    description:
+      "100+ keynotes, TEDx talk, United Nations Geneva address, and author of 'Beyond the Green Horizon'. Invite Lalit Gautam to speak.",
+    images: [
+      {
+        url: "/images/og-speaking.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Lalit Gautam · Keynote Speaker & Author — TEDx & UN Geneva",
+        type: "image/jpeg",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `Speaking & Book · ${person.name}`,
+    description:
+      "100+ keynotes, TEDx talk, United Nations Geneva address, and author of 'Beyond the Green Horizon'. Invite Lalit Gautam to speak.",
+    creator: "@lalitgautam",
+    images: ["/images/og-speaking.jpg"],
+  },
 };
 
 function SpeakingJsonLd() {

@@ -6,7 +6,8 @@ const routes = ["/", "/ventures", "/speaking", "/book-a-call"];
 export default function sitemap(): MetadataRoute.Sitemap {
   return routes.map((path) => ({
     url: new URL(path, siteUrl).toString(),
+    lastModified: new Date(),
     changeFrequency: path === "/" ? "weekly" : "monthly",
-    priority: path === "/" ? 1 : 0.8,
+    priority: path === "/" ? 1.0 : 0.8,
   }));
 }

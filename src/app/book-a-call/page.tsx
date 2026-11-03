@@ -11,6 +11,32 @@ export const metadata: Metadata = {
   description:
     "One-on-one video calls with Lalit Gautam on strategy, fundraising, scaling, internationalization, startup visas and public speaking.",
   alternates: { canonical: "/book-a-call" },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "/book-a-call",
+    siteName: person.name,
+    title: `Book a Call · ${person.name}`,
+    description:
+      "One-on-one video calls with Lalit Gautam on startup strategy, fundraising, international expansion, visas, and pitch coaching.",
+    images: [
+      {
+        url: "/images/og-book-a-call.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Lalit Gautam · 1:1 Mentorship & Advisory Sessions",
+        type: "image/jpeg",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `Book a Call · ${person.name}`,
+    description:
+      "One-on-one video calls with Lalit Gautam on startup strategy, fundraising, international expansion, visas, and pitch coaching.",
+    creator: "@lalitgautam",
+    images: ["/images/og-book-a-call.jpg"],
+  },
 };
 
 function BookACallJsonLd() {
