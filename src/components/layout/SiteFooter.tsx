@@ -4,6 +4,7 @@ import {
   contactEmail,
   externalLinks,
   getSocialLinks,
+  siteUrl,
   type SocialId,
 } from "@/lib/links";
 
@@ -99,7 +100,7 @@ export function SiteFooter({
         </nav>
         <p className="m-0 text-[13px] font-medium md:text-[15px]">
           © {year} {person.name}
-          <span className="hidden md:inline"> · {person.domain}</span>
+          <span className="hidden md:inline"> · <a href={siteUrl} className="text-current no-underline hover:underline">{person.domain}</a></span>
         </p>
       </div>
     </footer>

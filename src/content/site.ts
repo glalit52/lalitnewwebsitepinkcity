@@ -9,7 +9,7 @@
 export const person = {
   name: "Lalit Gautam",
   email: "lalit@sensegrass.com",
-  domain: "lalitgautam.com",
+  domain: "lalitnewwebsitepinkcity.vercel.app",
   tagline: "A global citizen building startups and inspiring change worldwide.",
   intro:
     "Serial entrepreneur · TEDx speaker · Forbes 30 Under 30 · MIT 35 Under 35. Founded 2 ventures, one exit, $5.5M+ raised — and a mentor to founders going global.",

@@ -17,7 +17,7 @@ export type Store = {
 
 function hashIp(ip: string): string | undefined {
   if (!ip || ip === "unknown") return undefined;
-  const salt = process.env.INQUIRY_IP_SALT ?? "lalitgautam.com";
+  const salt = process.env.INQUIRY_IP_SALT ?? "lalitnewwebsitepinkcity.vercel.app";
   return createHash("sha256").update(`${salt}:${ip}`).digest("hex");
 }
 

@@ -1,4 +1,5 @@
 import "server-only";
+import { siteDomain, siteUrl } from "@/lib/links";
 import type { InquiryKind } from "./schema";
 
 export type DeliveryResult =
@@ -74,7 +75,7 @@ export function formatInquiryEmail(
   const detailsText = rows.map(([k, v]) => `${k}: ${v}`).join("\n");
 
   const plainText = `
-New inquiry received on lalitgautam.com:
+New inquiry received on ${siteDomain}:
 
 ${detailsText}
 
@@ -99,7 +100,7 @@ To reply directly, simply hit "Reply" in your email client (sends to ${email}).
         ${isSpeaking ? "🎤 New Speaking Invitation" : "📞 New 1:1 Call Request"}
       </h1>
       <p style="margin: 6px 0 0; color: #E7A08C; font-size: 14px;">
-        Direct notification from lalitgautam.com
+        Direct notification from ${siteDomain}
       </p>
     </div>
     
@@ -139,7 +140,7 @@ To reply directly, simply hit "Reply" in your email client (sends to ${email}).
     </div>
 
     <div style="background-color: #FFF6EA; padding: 18px 32px; text-align: center; border-top: 1px solid #F3C8B9; font-size: 13px; color: #4A3540;">
-      Routing to <strong>${escapeHtml(recipient)}</strong> · <a href="https://lalitgautam.com" style="color: #22306B; text-decoration: none; font-weight: 600;">lalitgautam.com</a>
+      Routing to <strong>${escapeHtml(recipient)}</strong> · <a href="${siteUrl}" style="color: #22306B; text-decoration: none; font-weight: 600;">${siteDomain}</a>
     </div>
   </div>
 </body>
@@ -195,7 +196,7 @@ export const deliverInquiry: Deliver = async (kind, payload) => {
             headers: {
               Authorization: `Bearer ${resendApiKey}`,
               "Content-Type": "application/json",
-              "User-Agent": "LalitGautamSite/1.0 (+https://lalitgautam.com)",
+              "User-Agent": `LalitGautamSite/1.0 (+${siteUrl})`,
             },
             body: JSON.stringify({
               from: fromEmail,
@@ -232,7 +233,7 @@ export const deliverInquiry: Deliver = async (kind, payload) => {
     try {
       const headers: Record<string, string> = {
         "Content-Type": "application/json",
-        "User-Agent": "LalitGautamSite/1.0 (+https://lalitgautam.com)",
+        "User-Agent": `LalitGautamSite/1.0 (+${siteUrl})`,
       };
       if (process.env.INQUIRY_WEBHOOK_SECRET) {
         headers.Authorization = `Bearer ${process.env.INQUIRY_WEBHOOK_SECRET}`;

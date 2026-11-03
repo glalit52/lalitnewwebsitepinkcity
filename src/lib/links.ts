@@ -16,7 +16,20 @@ export function safeExternalUrl(value: string | undefined | null): string | null
 }
 
 export const siteUrl =
-  safeExternalUrl(process.env.NEXT_PUBLIC_SITE_URL) ?? "https://lalitgautam.com";
+  safeExternalUrl(process.env.NEXT_PUBLIC_SITE_URL) ??
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "https://lalitnewwebsitepinkcity.vercel.app");
+
+export const siteDomain = (() => {
+  try {
+    return new URL(siteUrl).hostname;
+  } catch {
+    return "lalitnewwebsitepinkcity.vercel.app";
+  }
+})();
 
 // `||`, not `??`: a blank `NEXT_PUBLIC_CONTACT_EMAIL=` must fall back too.
 export const contactEmail =
