@@ -4,7 +4,9 @@
  * http(s) URL) resolves to `null`, and the UI hides or replaces the control
  * rather than rendering a link that goes nowhere.
  */
-export function safeExternalUrl(value: string | undefined | null): string | null {
+export function safeExternalUrl(
+  value: string | undefined | null,
+): string | null {
   if (!value) return null;
   try {
     const url = new URL(value.trim());
@@ -21,7 +23,7 @@ export const siteUrl =
     ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
     : process.env.VERCEL_URL
       ? `https://${process.env.VERCEL_URL}`
-      : "https://lalitnewwebsitepinkcity.vercel.app");
+      : "https://lalitgautam.com");
 
 export const siteDomain = (() => {
   try {
@@ -48,7 +50,15 @@ export const externalLinks = {
   youtube: safeExternalUrl(process.env.NEXT_PUBLIC_YOUTUBE_URL),
 } as const;
 
-export type SocialId = "email" | "facebook" | "x" | "whatsapp" | "instagram" | "youtube" | "linkedin" | "topmate";
+export type SocialId =
+  | "email"
+  | "facebook"
+  | "x"
+  | "whatsapp"
+  | "instagram"
+  | "youtube"
+  | "linkedin"
+  | "topmate";
 export type SocialLink = { id: SocialId; name: string; url: string };
 
 /**
