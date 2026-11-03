@@ -12,8 +12,8 @@ export function SpeakingTeaser() {
             On the SDGs, civic education, sustainable startup models, and human intelligence in the age of AI — plus a
             book on the long race of building.
           </p>
-          <Link href="/speaking" className="self-start py-1 font-semibold">
-            Talks &amp; the book <span aria-hidden="true">→</span>
+          <Link href="/speaking" className="group/link inline-flex items-center gap-1.5 self-start py-1 font-semibold text-indigo hover:text-indigo-deep">
+            Talks &amp; the book <span aria-hidden="true" className="transition-transform duration-200 group-hover/link:translate-x-1">→</span>
           </Link>
         </div>
         <BookCover />

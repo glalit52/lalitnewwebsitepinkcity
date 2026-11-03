@@ -27,7 +27,7 @@ function MediaCard({ item }: { item: MediaItem }) {
       target="_blank"
       rel="noopener noreferrer"
       draggable={false}
-      className="group flex h-full flex-col overflow-hidden rounded-[18px] border-2 border-pink bg-ivory text-ink no-underline transition-[border-color,box-shadow] duration-200 hover:border-terracotta hover:text-ink hover:shadow-[0_10px_28px_-14px_rgb(142_59_44/0.45)]"
+      className="group flex h-full flex-col overflow-hidden rounded-[18px] border-2 border-pink bg-ivory text-ink no-underline transition-all duration-300 hover:border-terracotta hover:text-ink hover:shadow-[0_16px_32px_-10px_rgba(142,59,44,0.35)] hover:-translate-y-1"
     >
       <span className="relative block aspect-[16/9] w-full overflow-hidden border-b-2 border-pink bg-indigo">
         {item.image ? (
@@ -39,7 +39,7 @@ function MediaCard({ item }: { item: MediaItem }) {
             // Small thumbnails: load them all so cards never scroll in blank.
             loading="eager"
             draggable={false}
-            className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+            className="object-cover transition-transform duration-500 group-hover:scale-[1.05]"
           />
         ) : (
           <span aria-hidden="true" className="blockprint absolute inset-0 flex items-center justify-center px-5">
@@ -57,9 +57,9 @@ function MediaCard({ item }: { item: MediaItem }) {
             </>
           ) : null}
         </span>
-        <span className="line-clamp-3 font-display text-[20px] leading-[1.25] text-indigo">{item.title}</span>
-        <span className="mt-auto pt-1 text-[15px] font-semibold text-indigo">
-          {item.cta ?? "Read the story"} <span aria-hidden="true">→</span>
+        <span className="line-clamp-3 font-display text-[20px] leading-[1.25] text-indigo transition-colors duration-200 group-hover:text-indigo-deep">{item.title}</span>
+        <span className="mt-auto inline-flex items-center gap-1.5 pt-1 text-[15px] font-semibold text-indigo">
+          {item.cta ?? "Read the story"} <span aria-hidden="true" className="transition-transform duration-200 group-hover:translate-x-1">→</span>
           <span className="sr-only"> (opens in a new tab)</span>
         </span>
       </span>
@@ -73,7 +73,7 @@ function Arrow({ dir, onClick }: { dir: "prev" | "next"; onClick: () => void }) 
       type="button"
       onClick={onClick}
       aria-label={dir === "prev" ? "Previous stories" : "Next stories"}
-      className="flex size-10 flex-none items-center justify-center rounded-full border-2 border-indigo bg-ivory text-indigo shadow-[0_8px_20px_-10px_rgb(18_27_69/0.55)] transition-[background-color,color,transform] hover:bg-indigo hover:text-ivory active:scale-95 sm:size-12"
+      className="flex size-10 flex-none items-center justify-center rounded-full border-2 border-indigo bg-ivory text-indigo shadow-[0_6px_16px_-4px_rgba(18,27,69,0.35)] transition-all duration-200 hover:bg-indigo hover:text-ivory hover:scale-105 active:scale-95 sm:size-12"
     >
       <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
         {dir === "prev" ? <path d="M15 5l-7 7 7 7" /> : <path d="M9 5l7 7-7 7" />}

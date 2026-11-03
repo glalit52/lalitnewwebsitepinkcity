@@ -7,7 +7,7 @@ export function VisasSection() {
   return (
     <section className="lattice py-12 md:py-28" aria-labelledby="visas-title">
       <div className="wrap flex flex-col gap-4 md:gap-10">
-        <div className="flex max-w-[760px] flex-col gap-1.5 rounded-[18px] bg-ivory p-[22px] md:gap-2.5 md:rounded-3xl md:p-10">
+        <div className="flex max-w-[760px] flex-col gap-1.5 rounded-[18px] bg-ivory border border-pink/50 p-[22px] shadow-[0_6px_20px_rgba(142,59,44,0.08)] md:gap-2.5 md:rounded-3xl md:p-10">
           <SectionHeading
             id="visas-title"
             eyebrow={
@@ -26,9 +26,9 @@ export function VisasSection() {
             <li
               key={c.name}
               data-surface="dark"
-              className="blockprint flex items-center gap-4 rounded-xl border-2 border-ivory p-3.5 text-ivory md:rounded-2xl md:border-[3px] md:p-[22px] lg:flex-col lg:items-start lg:gap-3 lg:p-5"
+              className="blockprint group flex items-center gap-3.5 rounded-xl border-2 border-ivory/85 p-3.5 text-ivory transition-all duration-300 hover:border-marigold hover:shadow-[0_12px_28px_-6px_rgba(242,179,61,0.35)] hover:-translate-y-1.5 md:rounded-2xl md:border-[3px] md:p-[22px] lg:flex-col lg:items-start lg:gap-3 lg:p-5"
             >
-              <span className="hidden md:block">
+              <span className="hidden md:block transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110">
                 <Rosette />
               </span>
               <span className="min-w-0 break-words">

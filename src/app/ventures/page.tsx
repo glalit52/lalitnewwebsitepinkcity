@@ -43,22 +43,29 @@ function VentureRow({ v, flip }: { v: Venture; flip: boolean }) {
     <article
       id={v.slug}
       aria-labelledby={`venture-${v.slug}`}
-      className="grid scroll-mt-24 items-center gap-10 md:gap-14 lg:grid-cols-2"
+      className="grid scroll-mt-28 items-center gap-10 md:gap-14 lg:grid-cols-2"
     >
       <div className={`flex justify-center ${flip ? "lg:order-2" : ""}`}>
         <PhotoFrame
           src={v.image}
           alt={`${v.name} product`}
           sizes="(min-width: 1024px) 440px, 90vw"
-          className="aspect-[4/4.4] w-[calc(100%-21px)] max-w-[440px] rounded-[240px_240px_18px_18px] border-8 border-ivory"
+          className="aspect-[4/4.4] w-[calc(100%-21px)] max-w-[440px] rounded-[240px_240px_18px_18px] border-8 border-ivory transition-transform duration-300 hover:scale-[1.02]"
           style={{ background: v.tint, boxShadow: `0 0 0 3px ${v.tint}, 18px 18px 0 #E7A08C` }}
           fallback={<span className="font-display text-[72px] leading-none text-ivory md:text-[96px]">{v.initial}</span>}
         />
       </div>
       <div className="flex flex-col gap-3.5">
-        <p className="eyebrow m-0 !tracking-[0.18em]">
-          {v.years} · {v.role}
-        </p>
+        <div className="flex flex-wrap items-center gap-2">
+          <p className="eyebrow m-0 !tracking-[0.18em]">
+            {v.years} · {v.role}
+          </p>
+          {v.acquired ? (
+            <span className="inline-flex items-center rounded-full bg-terracotta/15 px-2.5 py-0.5 text-[11px] font-semibold text-terracotta border border-terracotta/30">
+              Acquired · First exit
+            </span>
+          ) : null}
+        </div>
         <h2
           id={`venture-${v.slug}`}
           className="m-0 font-display text-[38px] font-normal leading-[1.05] text-indigo md:text-[56px]"
@@ -82,9 +89,12 @@ function VentureRow({ v, flip }: { v: Venture; flip: boolean }) {
             href={v.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn mt-2 self-start bg-indigo text-ivory hover:text-ivory md:px-[26px] md:py-3.5"
+            className="btn mt-2 self-start bg-indigo text-ivory hover:text-ivory shadow-[0_4px_14px_-2px_rgba(34,48,107,0.3)] md:px-[26px] md:py-3.5"
           >
             Visit {v.domain ?? v.name}
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" className="ml-0.5">
+              <path d="M7 17L17 7M7 7h10v10" />
+            </svg>
             <span className="sr-only"> (opens in a new tab)</span>
           </a>
         )}
@@ -113,16 +123,16 @@ export default function VenturesPage() {
 
       <section className="lattice py-16 md:py-24">
         <div className="wrap grid gap-5 md:gap-7 lg:grid-cols-2">
-          <div className="flex flex-col gap-3 rounded-3xl bg-ivory p-7 md:p-11">
+          <div className="flex flex-col gap-3 rounded-3xl bg-ivory border border-pink/50 p-7 shadow-[0_6px_24px_rgba(142,59,44,0.08)] transition-transform duration-300 hover:-translate-y-1 md:p-11">
             <SectionHeading eyebrow="Advocating" title="Speaking up for what matters" size="md" />
             <p className="m-0">{advocacy}</p>
           </div>
-          <div className="flex flex-col gap-3 rounded-3xl bg-ivory p-7 md:p-11">
+          <div className="flex flex-col gap-3 rounded-3xl bg-ivory border border-pink/50 p-7 shadow-[0_6px_24px_rgba(142,59,44,0.08)] transition-transform duration-300 hover:-translate-y-1 md:p-11">
             <SectionHeading eyebrow="Supporting" title="Mentoring founders to go global" size="md" />
             <p className="m-0">With a focus on the SDGs and SaaS, alongside:</p>
             <ul className="m-0 flex list-none flex-wrap gap-2 p-0">
               {affiliations.map((a) => (
-                <li key={a} className="rounded-full bg-indigo px-3.5 py-1.5 text-[15px] text-ivory md:text-base">
+                <li key={a} className="rounded-full bg-indigo px-4 py-1.5 text-[15px] text-ivory shadow-sm transition-colors hover:bg-indigo-soft md:text-base">
                   {a}
                 </li>
               ))}

@@ -68,11 +68,11 @@ export default function SpeakingPage() {
             {topics.map((t, i) => (
               <li
                 key={t}
-                className="flex flex-col items-center gap-3.5 rounded-[160px_160px_18px_18px] border-2 border-pink bg-blush px-6 pb-[30px] pt-14 text-center"
+                className="group flex flex-col items-center gap-3.5 rounded-[160px_160px_18px_18px] border-2 border-pink bg-blush px-6 pb-[30px] pt-14 text-center transition-all duration-300 hover:border-terracotta hover:shadow-[0_16px_32px_-10px_rgba(142,59,44,0.3)] hover:-translate-y-1.5"
               >
                 <span
                   aria-hidden="true"
-                  className="flex size-16 items-center justify-center rounded-full border-4 border-ivory bg-indigo font-display text-[28px] text-marigold shadow-[0_0_0_2px_#22306B]"
+                  className="flex size-16 items-center justify-center rounded-full border-4 border-ivory bg-indigo font-display text-[28px] text-marigold shadow-[0_0_0_2px_#22306B] transition-transform duration-300 group-hover:scale-110"
                 >
                   {i + 1}
                 </span>
@@ -91,7 +91,7 @@ export default function SpeakingPage() {
             src={unTalk.image}
             alt="Lalit Gautam at the United Nations, Geneva — High-Level Dialogue on Innovation for Sustainable Development, 2020: poster and white paper"
             sizes="(min-width: 1024px) 560px, 100vw"
-            className="aspect-[3/2] w-full rounded-[18px] border-4 border-ivory bg-indigo-soft"
+            className="aspect-[3/2] w-full rounded-[18px] border-4 border-ivory bg-indigo-soft shadow-lg transition-transform duration-300 hover:scale-[1.01]"
             fallback={
               <span className="flex flex-col items-center gap-3 text-center">
                 <svg aria-hidden="true" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#F2B33D" strokeWidth="1.4">
@@ -115,7 +115,7 @@ export default function SpeakingPage() {
             src={tedxTalk.image}
             alt={`Lalit Gautam giving his talk “${tedxTalk.title}” on stage at ${tedxEventName}`}
             sizes="(min-width: 1024px) 560px, 100vw"
-            className="aspect-video w-full rounded-[18px] border-4 border-ivory bg-ink shadow-[0_0_0_2px_#22306B] lg:order-last"
+            className="aspect-video w-full rounded-[18px] border-4 border-ivory bg-ink shadow-[0_0_0_2px_#22306B,0_12px_30px_-10px_rgba(0,0,0,0.45)] lg:order-last transition-transform duration-300 hover:scale-[1.01]"
             fallback={
               <span className="flex flex-col items-center gap-2 px-6 text-center">
                 <span className="font-sans text-[64px] font-extrabold leading-none tracking-[-0.04em] text-[#e62b1e] md:text-[88px]">
@@ -135,7 +135,7 @@ export default function SpeakingPage() {
                   href={tedxTalk.watchUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn bg-indigo text-ivory hover:text-ivory"
+                  className="btn bg-indigo text-ivory hover:text-ivory shadow-[0_4px_14px_-2px_rgba(34,48,107,0.3)]"
                 >
                   <svg aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
                     <path d="M3 1.5l9.5 5.5L3 12.5z" />
@@ -148,7 +148,7 @@ export default function SpeakingPage() {
                 href={tedxTalk.eventUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn border-2 border-indigo bg-transparent text-indigo hover:bg-ivory"
+                className="btn border-2 border-indigo bg-transparent text-indigo hover:bg-indigo hover:text-ivory"
               >
                 {tedxEventName} event page
                 <span className="sr-only"> (opens in a new tab)</span>
@@ -158,7 +158,7 @@ export default function SpeakingPage() {
         </div>
       </section>
 
-      <section id="book" className="scroll-mt-24 py-16 md:py-[104px]" aria-labelledby="book-title">
+      <section id="book" className="scroll-mt-28 py-16 md:py-[104px]" aria-labelledby="book-title">
         <div className="wrap grid items-center gap-12 md:gap-16 lg:grid-cols-2">
           <BookCover variant="feature" />
           <div className="flex flex-col gap-4">
@@ -178,7 +178,7 @@ export default function SpeakingPage() {
                     rel="noopener noreferrer"
                     className={
                       l.primary
-                        ? "btn bg-indigo text-ivory hover:text-ivory"
+                        ? "btn bg-indigo text-ivory hover:text-ivory shadow-[0_4px_14px_-2px_rgba(34,48,107,0.3)]"
                         : "btn border-2 border-indigo bg-transparent text-indigo hover:bg-blush"
                     }
                   >
@@ -199,7 +199,7 @@ export default function SpeakingPage() {
       </section>
 
       {media.length ? (
-        <section id="media" className="scroll-mt-24 bg-blush py-16 md:py-24" aria-labelledby="media-title">
+        <section id="media" className="scroll-mt-28 bg-blush py-16 md:py-24" aria-labelledby="media-title">
           <div className="flex flex-col gap-10 md:gap-11">
             <div className="wrap">
               <SectionHeading id="media-title" eyebrow="In the media" title="Stories & press" />
@@ -209,7 +209,7 @@ export default function SpeakingPage() {
         </section>
       ) : null}
 
-      <section id="invite" className="lattice scroll-mt-24 py-16 md:py-24">
+      <section id="invite" className="lattice scroll-mt-28 py-16 md:py-24">
         <div className="wrap flex justify-center">
           <SpeakingInviteForm />
         </div>

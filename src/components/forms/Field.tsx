@@ -11,7 +11,7 @@ type Common = {
 
 const labelCls = "flex flex-col gap-1.5 text-[15px] font-semibold tracking-[0.04em] text-ink";
 const controlCls =
-  "w-full rounded-xl border-2 bg-ivory px-4 py-3.5 font-sans text-[17px] font-normal tracking-normal text-ink placeholder:text-ink-muted/70 transition-colors focus:border-indigo focus-visible:outline-offset-2 aria-[invalid=true]:border-maroon";
+  "w-full rounded-xl border-2 bg-ivory px-4 py-3.5 font-sans text-[17px] font-normal tracking-normal text-ink placeholder:text-ink-muted/70 transition-all duration-200 focus:border-indigo focus:ring-2 focus:ring-indigo/20 focus-visible:outline-hidden aria-[invalid=true]:border-maroon aria-[invalid=true]:focus:ring-maroon/20";
 
 function Message({ id, error, hint }: { id: string; error?: string; hint?: string }) {
   if (error)

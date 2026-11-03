@@ -23,13 +23,13 @@ export function Honours() {
           {honours.map((h) => (
             <li
               key={h.marker}
-              className="relative flex flex-col gap-1 md:col-span-2 md:row-span-3 md:grid md:grid-rows-subgrid md:gap-2 md:border-t-[3px] md:border-terracotta md:pr-7 md:pt-7 xl:col-span-1 xl:pr-6"
+              className="group relative flex flex-col gap-1 transition-all duration-300 hover:-translate-y-0.5 md:col-span-2 md:row-span-3 md:grid md:grid-rows-subgrid md:gap-2 md:border-t-[3px] md:border-terracotta md:pr-7 md:pt-7 xl:col-span-1 xl:pr-6"
             >
               <span
                 aria-hidden="true"
-                className="absolute -left-8 top-1.5 size-3.5 rotate-45 border-2 border-terracotta bg-marigold md:-top-[13px] md:left-0 md:size-5 md:border-[3px]"
+                className="absolute -left-8 top-1.5 size-3.5 rotate-45 border-2 border-terracotta bg-marigold shadow-[0_0_10px_rgba(242,179,61,0.6)] transition-transform duration-300 group-hover:scale-125 md:-top-[13px] md:left-0 md:size-5 md:border-[3px]"
               />
-              <p className="m-0 text-balance font-display text-[22px] leading-[1.1] text-maroon md:text-[30px] md:leading-[1.05] xl:text-[28px]">
+              <p className="m-0 text-balance font-display text-[22px] leading-[1.1] text-maroon transition-colors duration-200 group-hover:text-terracotta md:text-[30px] md:leading-[1.05] xl:text-[28px]">
                 {h.marker}
               </p>
               <h3 className="m-0 text-[17px] font-semibold text-indigo md:text-[20px]">{h.title}</h3>

@@ -5,7 +5,7 @@ import { HeaderNav } from "./HeaderNav";
 
 export function SiteHeader() {
   return (
-    <header data-surface="dark" className="relative z-30 border-b-[3px] border-marigold bg-indigo text-ivory md:border-b-4">
+    <header data-surface="dark" className="sticky top-0 z-40 border-b-[3px] border-marigold bg-indigo/95 backdrop-blur-md text-ivory md:border-b-4 transition-all duration-300 shadow-[0_4px_20px_-4px_rgba(18,27,69,0.35)]">
       <div className="wrap flex items-center justify-between gap-4 py-2.5 lg:gap-7 lg:py-3.5">
         <Link
           href="/"

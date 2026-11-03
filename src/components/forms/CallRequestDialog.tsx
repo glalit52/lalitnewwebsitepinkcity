@@ -45,7 +45,7 @@ function CallRequestForm({
           defaultValue={values.service ?? initialService}
           aria-invalid={errors.service ? true : undefined}
           aria-describedby={errors.service ? `${id("service")}-error` : undefined}
-          className="w-full rounded-xl border-2 border-pink bg-ivory px-4 py-3.5 font-sans text-[17px] font-normal tracking-normal text-ink focus:border-indigo"
+          className="w-full rounded-xl border-2 border-pink bg-ivory px-4 py-3.5 font-sans text-[17px] font-normal tracking-normal text-ink transition-all duration-200 focus:border-indigo focus:ring-2 focus:ring-indigo/20 focus-visible:outline-hidden"
         >
           {services.map((s) => (
             <option key={s.id} value={s.id}>
@@ -76,7 +76,7 @@ function CallRequestForm({
       />
       <Honeypot name={HONEYPOT_FIELD} />
       <FormStatus state={state} />
-      <button type="submit" disabled={pending} className="btn w-full bg-indigo py-4 text-ivory">
+      <button type="submit" disabled={pending} className="btn w-full bg-indigo py-4 text-ivory font-semibold shadow-md">
         {pending ? (
           <>
             <Spinner /> Sending…
@@ -124,7 +124,7 @@ export function RequestCallButton({ services, service, className = "" }: Props) 
           // Clicking the backdrop (the dialog element itself) closes it.
           if (e.target === dialogRef.current) dialogRef.current.close();
         }}
-        className="m-auto w-[calc(100%-32px)] max-w-[620px] rounded-[28px] border-[3px] border-indigo bg-ivory p-0 text-left text-ink backdrop:bg-indigo-deep/60 backdrop:backdrop-blur-[2px]"
+        className="m-auto w-[calc(100%-32px)] max-w-[620px] rounded-[28px] border-[3px] border-indigo bg-ivory p-0 text-left text-ink shadow-2xl backdrop:bg-indigo-deep/65 backdrop:backdrop-blur-sm"
       >
         <div className="flex max-h-[calc(100dvh-48px)] flex-col gap-5 overflow-y-auto p-6 sm:p-9">
           <div className="flex items-start justify-between gap-4">
@@ -138,7 +138,7 @@ export function RequestCallButton({ services, service, className = "" }: Props) 
               type="button"
               aria-label="Close"
               onClick={() => dialogRef.current?.close()}
-              className="flex size-11 flex-none items-center justify-center rounded-full border-2 border-pink text-indigo transition-colors hover:bg-blush"
+              className="flex size-11 flex-none items-center justify-center rounded-full border-2 border-pink text-indigo transition-all hover:bg-blush hover:scale-105 active:scale-95"
             >
               <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
                 <path d="M6 6l12 12M18 6L6 18" />

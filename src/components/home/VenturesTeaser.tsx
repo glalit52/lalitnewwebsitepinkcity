@@ -9,11 +9,11 @@ import { ventures, type Venture } from "@/content/site";
  */
 function VentureCard({ v }: { v: Venture }) {
   return (
-    <article className="group relative flex items-center gap-3.5 rounded-[18px] border-2 border-pink bg-blush p-3.5 transition-[border-color,box-shadow,transform] duration-200 hover:border-terracotta hover:shadow-[0_10px_28px_-14px_rgb(142_59_44/0.45)] has-[a:focus-visible]:border-terracotta has-[a:focus-visible]:outline-3 has-[a:focus-visible]:outline-offset-3 has-[a:focus-visible]:outline-indigo motion-safe:hover:-translate-y-0.5 md:flex-col md:items-stretch md:gap-3 md:rounded-[200px_200px_18px_18px] md:p-[26px]">
+    <article className="group relative flex items-center gap-3.5 rounded-[18px] border-2 border-pink bg-blush p-3.5 transition-all duration-300 hover:border-terracotta hover:shadow-[0_20px_35px_-12px_rgba(142,59,44,0.35)] has-[a:focus-visible]:border-terracotta has-[a:focus-visible]:outline-3 has-[a:focus-visible]:outline-offset-3 has-[a:focus-visible]:outline-indigo motion-safe:hover:-translate-y-1.5 md:flex-col md:items-stretch md:gap-3 md:rounded-[200px_200px_18px_18px] md:p-[26px]">
       <div
         aria-hidden="true"
-        className="flex h-[78px] w-16 flex-none items-center justify-center rounded-[32px_32px_6px_6px] border-[3px] border-ivory font-display text-[28px] text-ivory md:h-[190px] md:w-auto md:rounded-[200px_200px_0_0] md:border-4 md:text-[48px]"
-        style={{ background: v.tint, boxShadow: `0 0 0 2px ${v.tint}` }}
+        className="flex h-[78px] w-16 flex-none items-center justify-center rounded-[32px_32px_6px_6px] border-[3px] border-ivory font-display text-[28px] text-ivory shadow-md transition-transform duration-300 group-hover:scale-[1.02] md:h-[190px] md:w-auto md:rounded-[200px_200px_0_0] md:border-4 md:text-[48px]"
+        style={{ background: v.tint, boxShadow: `0 0 0 2px ${v.tint}, 0 6px 16px -4px rgba(0,0,0,0.2)` }}
       >
         {v.initial}
       </div>
@@ -47,8 +47,8 @@ export function VenturesTeaser() {
       <div className="wrap flex flex-col gap-[18px] md:gap-11">
         <div className="flex flex-wrap items-end justify-between gap-5">
           <SectionHeading id="ventures-teaser" eyebrow="Ventures" title="Three doors I’ve opened" />
-          <Link href="/ventures" className="hidden font-semibold md:inline">
-            All ventures <span aria-hidden="true">→</span>
+          <Link href="/ventures" className="group/link hidden items-center gap-1.5 font-semibold text-indigo hover:text-indigo-deep md:inline-flex">
+            All ventures <span aria-hidden="true" className="transition-transform duration-200 group-hover/link:translate-x-1">→</span>
           </Link>
         </div>
         <div className="grid gap-[18px] md:grid-cols-[repeat(auto-fit,minmax(min(100%,320px),1fr))] md:gap-7">
@@ -56,8 +56,8 @@ export function VenturesTeaser() {
             <VentureCard key={v.slug} v={v} />
           ))}
         </div>
-        <Link href="/ventures" className="flex min-h-11 items-center self-start font-semibold md:hidden">
-          All ventures <span aria-hidden="true">&nbsp;→</span>
+        <Link href="/ventures" className="group/link flex min-h-11 items-center gap-1.5 self-start font-semibold text-indigo hover:text-indigo-deep md:hidden">
+          All ventures <span aria-hidden="true" className="transition-transform duration-200 group-hover/link:translate-x-1">→</span>
         </Link>
       </div>
     </section>

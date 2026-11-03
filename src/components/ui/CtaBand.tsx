@@ -19,7 +19,7 @@ export function CtaBand({ eyebrow, title, body, href, cta }: Props) {
         <p className="m-0 max-w-[640px] text-[15px] text-mist md:text-[19px]">{body}</p>
         <Link
           href={href}
-          className="btn w-full bg-marigold text-indigo hover:text-indigo md:w-auto md:px-[34px] md:py-[17px]"
+          className="btn w-full bg-marigold text-indigo hover:text-indigo font-semibold shadow-[0_6px_24px_rgba(242,179,61,0.5)] hover:shadow-[0_8px_30px_rgba(242,179,61,0.7)] md:w-auto md:px-[34px] md:py-[17px]"
         >
           {cta}
         </Link>

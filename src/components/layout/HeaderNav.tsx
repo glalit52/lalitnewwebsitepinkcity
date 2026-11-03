@@ -72,7 +72,7 @@ export function HeaderNav() {
       {/* Desktop */}
       <nav
         aria-label="Primary"
-        className="hidden items-center gap-7 text-[15px] font-medium uppercase tracking-[0.1em] lg:flex"
+        className="hidden items-center gap-2 text-[15px] font-medium uppercase tracking-[0.1em] lg:flex"
       >
         {navItems.map((item) => {
           const active = isActive(pathname, item.href);
@@ -81,8 +81,8 @@ export function HeaderNav() {
               key={item.href}
               href={item.href}
               aria-current={active ? "page" : undefined}
-              className={`border-b-2 py-2.5 text-ivory no-underline transition-colors hover:text-marigold ${
-                active ? "border-marigold" : "border-transparent"
+              className={`relative px-4 py-2 rounded-full text-ivory no-underline transition-all duration-200 hover:text-marigold hover:bg-white/10 ${
+                active ? "text-marigold bg-white/15 font-semibold shadow-[inset_0_-2px_0_0_#F2B33D]" : ""
               }`}
             >
               {item.label}
@@ -92,8 +92,8 @@ export function HeaderNav() {
         <Link
           href={bookCallHref}
           aria-current={bookActive ? "page" : undefined}
-          className={`btn min-h-0 bg-marigold px-[22px] py-3 text-indigo hover:text-indigo ${
-            bookActive ? "shadow-[0_0_0_2px_#FFF6EA]" : ""
+          className={`btn min-h-0 ml-2 bg-marigold px-5 py-2.5 text-indigo hover:text-indigo font-semibold shadow-[0_4px_14px_-2px_rgba(242,179,61,0.5)] hover:shadow-[0_6px_20px_rgba(242,179,61,0.7)] ${
+            bookActive ? "ring-2 ring-ivory" : ""
           }`}
         >
           Book a call
@@ -108,7 +108,7 @@ export function HeaderNav() {
         aria-expanded={open}
         aria-controls={menuId}
         onClick={() => setOpen((v) => !v)}
-        className="flex size-11 items-center justify-center rounded-xl border border-ivory/40 bg-transparent text-ivory transition-colors hover:bg-ivory/10 lg:hidden"
+        className="flex size-11 items-center justify-center rounded-xl border border-ivory/40 bg-transparent text-ivory transition-all hover:bg-ivory/10 active:scale-95 lg:hidden"
       >
         <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
           {open ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
@@ -119,9 +119,9 @@ export function HeaderNav() {
         ref={panelRef}
         id={menuId}
         hidden={!open}
-        className="absolute inset-x-0 top-full border-b-4 border-marigold bg-indigo shadow-[0_18px_30px_-18px_rgb(18_27_69/0.6)] lg:hidden"
+        className="absolute inset-x-0 top-full border-b-4 border-marigold bg-indigo shadow-[0_20px_40px_-15px_rgb(18_27_69/0.8)] lg:hidden motion-safe:animate-in motion-safe:slide-in-from-top-2 motion-safe:fade-in-0 duration-200"
       >
-        <nav aria-label="Mobile" className="wrap flex flex-col gap-1 py-4">
+        <nav aria-label="Mobile" className="wrap flex flex-col gap-1.5 py-4">
           {navItems.map((item) => {
             const active = isActive(pathname, item.href);
             return (
@@ -130,8 +130,8 @@ export function HeaderNav() {
                 href={item.href}
                 aria-current={active ? "page" : undefined}
                 onClick={() => close(false)}
-                className={`flex min-h-12 items-center rounded-xl px-3 text-[17px] font-medium uppercase tracking-[0.1em] text-ivory no-underline hover:bg-ivory/10 hover:text-marigold ${
-                  active ? "bg-ivory/10 text-marigold" : ""
+                className={`flex min-h-12 items-center rounded-xl px-4 text-[17px] font-medium uppercase tracking-[0.1em] text-ivory no-underline transition-colors hover:bg-ivory/10 hover:text-marigold ${
+                  active ? "bg-white/15 text-marigold font-semibold" : ""
                 }`}
               >
                 {item.label}
@@ -142,7 +142,7 @@ export function HeaderNav() {
             href={bookCallHref}
             aria-current={bookActive ? "page" : undefined}
             onClick={() => close(false)}
-            className="btn mt-2 w-full bg-marigold text-indigo hover:text-indigo"
+            className="btn mt-2 w-full bg-marigold text-indigo hover:text-indigo font-semibold shadow-md"
           >
             Book a call
           </Link>

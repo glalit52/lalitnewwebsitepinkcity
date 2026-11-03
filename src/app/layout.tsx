@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { person } from "@/content/site";
 import { siteUrl } from "@/lib/links";
+import { BackToTop } from "@/components/ui/BackToTop";
 import "./globals.css";
 
 // Self-hosted (SIL OFL fonts from Fontsource) — no build-time or runtime call to Google.
@@ -88,6 +89,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <main id="main" tabIndex={-1} className="outline-none">
           {children}
         </main>
+        <BackToTop />
       </body>
     </html>
   );

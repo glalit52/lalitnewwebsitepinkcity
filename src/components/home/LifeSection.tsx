@@ -10,20 +10,20 @@ export function LifeSection() {
         <SectionHeading id="life-title" eyebrow="Life" title="Work smart, party smarter" />
         <ul className="m-0 grid list-none grid-cols-3 gap-3 p-0 sm:gap-5 md:gap-[22px]">
           {life.map((l) => (
-            <li key={l.caption}>
+            <li key={l.caption} className="group">
               <figure className="m-0 flex flex-col gap-3">
                 <PhotoFrame
                   src={l.image}
                   sizes="(min-width: 1240px) 390px, 33vw"
                   alt={l.caption}
-                  className="aspect-[3/4] w-full bg-blush rounded-t-[200px] border-[3px] md:border-4 border-pink outline-2 outline-offset-4 outline-indigo"
+                  className="aspect-[3/4] w-full bg-blush rounded-t-[200px] border-[3px] md:border-4 border-pink outline-2 outline-offset-4 outline-indigo shadow-md transition-all duration-300 group-hover:shadow-[0_16px_32px_-8px_rgba(142,59,44,0.35)] group-hover:-translate-y-1.5"
                   fallback={
                     <span className="flex size-12 items-center justify-center rounded-full bg-ivory md:size-24">
                       <span className="scale-[0.55] md:scale-100"><LotusMark size={56} /></span>
                     </span>
                   }
                 />
-                <figcaption className="pt-1.5 text-center text-[14px] font-medium leading-snug md:text-[19px]">{l.caption}</figcaption>
+                <figcaption className="pt-1.5 text-center text-[14px] font-medium leading-snug text-ink transition-colors duration-200 group-hover:text-indigo md:text-[19px]">{l.caption}</figcaption>
               </figure>
             </li>
           ))}

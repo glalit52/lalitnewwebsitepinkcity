@@ -19,7 +19,7 @@ export function SpeakingInviteForm() {
       noValidate
       aria-labelledby="invite-title"
       aria-busy={pending}
-      className="relative box-border flex w-full max-w-[760px] flex-col gap-5 rounded-[28px] border-[3px] border-indigo bg-ivory p-6 sm:p-8 md:p-12"
+      className="relative box-border flex w-full max-w-[760px] flex-col gap-5 rounded-[28px] border-[3px] border-indigo bg-ivory p-6 sm:p-8 md:p-12 shadow-xl shadow-indigo/5"
     >
       <div className="flex flex-col gap-2 text-center">
         <p className="eyebrow m-0">Invite me to speak</p>
@@ -48,7 +48,7 @@ export function SpeakingInviteForm() {
 
       <FormStatus state={state} />
 
-      <button type="submit" disabled={pending} className="btn w-full bg-indigo py-4 text-ivory">
+      <button type="submit" disabled={pending} className="btn w-full bg-indigo py-4 text-ivory font-semibold shadow-[0_6px_20px_-4px_rgba(34,48,107,0.35)]">
         {pending ? (
           <>
             <Spinner /> Sending…

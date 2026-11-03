@@ -22,7 +22,7 @@ type Props = { src?: string; alt: string };
  */
 export function HawaMahalWindow({ src, alt }: Props) {
   return (
-    <div className="jharokha relative aspect-[320/440] w-[220px] flex-none md:w-[320px]">
+    <div className="jharokha relative aspect-[320/440] w-[220px] flex-none md:w-[320px] drop-shadow-[0_16px_32px_rgba(142,59,44,0.32)]">
       <div
         className="absolute inset-0 bg-maroon"
         style={{ maskImage: MASK, WebkitMaskImage: MASK, maskSize: "100% 100%", WebkitMaskSize: "100% 100%" }}

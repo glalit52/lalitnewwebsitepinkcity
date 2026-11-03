@@ -12,7 +12,7 @@ export function Hero() {
     <section className="lattice overflow-hidden pt-9 md:pt-16 lg:pt-20" aria-labelledby="hero-title">
       <div className="wrap grid items-center gap-3.5 text-center md:gap-5 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-14 lg:text-left">
         <div className="contents lg:flex lg:flex-col lg:gap-[22px]">
-          <p className="m-0 flex items-center gap-2 justify-self-center rounded-full bg-ivory py-1.5 pl-3 pr-4 md:gap-3 md:py-2 md:pl-3.5 md:pr-5 lg:self-start">
+          <p className="m-0 flex items-center gap-2 justify-self-center rounded-full bg-ivory border border-pink/60 py-1.5 pl-3.5 pr-4 shadow-[0_2px_10px_rgba(142,59,44,0.08)] md:gap-3 md:py-2 md:pl-4 md:pr-5 lg:self-start transition-transform hover:scale-[1.02]">
             <span lang="hi" className="font-hindi text-[17px] text-maroon md:text-xl">
               पधारो
             </span>
@@ -37,12 +37,12 @@ export function Hero() {
             <span className="hidden md:inline">{person.intro}</span>
           </p>
           <div className="order-4 flex w-full flex-col gap-2.5 pt-1.5 md:flex-row md:flex-wrap md:justify-center md:gap-3.5 lg:order-none lg:justify-start">
-            <Link href={bookCallHref} className="btn bg-indigo text-ivory hover:text-ivory md:px-8 md:py-[17px]">
+            <Link href={bookCallHref} className="btn bg-indigo text-ivory hover:text-ivory shadow-[0_8px_20px_-4px_rgba(34,48,107,0.35)] md:px-8 md:py-[17px]">
               Book a 1:1 call
             </Link>
             <Link
               href="/ventures"
-              className="btn border-2 border-indigo bg-ivory text-indigo hover:bg-white hover:text-indigo md:px-[30px] md:py-[15px]"
+              className="btn border-2 border-indigo bg-ivory text-indigo hover:bg-indigo hover:text-ivory shadow-[0_4px_14px_-2px_rgba(34,48,107,0.12)] md:px-[30px] md:py-[15px]"
             >
               Explore my ventures
             </Link>
